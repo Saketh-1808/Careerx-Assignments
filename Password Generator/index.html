@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Password Generator</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin-top:170px;
+      background-image: url(Strong-Password-Generator.webp);
+      background-size: cover;
+      background-repeat: no-repeat;
+
+    }
+    .container {
+      margin-top: 50%;
+      width: 500px;
+      margin: 0 auto;
+      padding: 20px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      background: rgb(25,25,28);
+background: linear-gradient(90deg, rgba(25,25,28,1) 0%, rgba(48,88,96,1) 100%);
+color: #fff;
+    }
+    h2 {
+      text-align: center;
+      color: #fff;
+    }
+    .form-group {
+      margin-bottom: 15px;
+    }
+    label {
+      display: block;
+      margin-bottom: 5px;
+    }
+    input[type="number"] {
+      width: 100%;
+      padding: 5px;
+    }
+    .password {
+      margin-top: 20px;
+      padding: 20px;
+      background-color:gray;
+      border-radius: 5px;
+      font-weight: bold;
+      text-align: center;
+    }
+    .button-container {
+      text-align: center;
+      margin-top: 20px;
+    }
+    button {
+      padding: 10px 20px;
+      background-color: #4caf50;
+      color: #fff;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+    button:hover {
+      background-color: #45a049;
+    }
+    .validation-message {
+      margin-top: 20px;
+      font-weight: bold;
+      text-align: center;
+      color: #ccc;
+    }
+    .copy-button {
+      margin-top: 10px;
+      padding: 10px 20px;
+      background-color: #337ab7;
+      color: #fff;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+    .copy-button:hover {
+      background-color: #23527c;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h2>Password Generator</h2>
+    <div class="form-group">
+      <label for="length">Password Length:</label>
+      <input type="number" id="length" min="4" max="20" value="8">
+    </div>
+    <div class="button-container">
+      <button onclick="generatePassword()">Generate Password</button>
+    </div>
+    <div class="password" id="password"></div>
+    <div class="validation-message" id="validation-message"></div>
+    <button class="copy-button" id="copy-button" onclick="copyPassword()" disabled>Copy Password</button>
+  </div>
+
+  <script>
+    function generatePassword() {
+      var length = document.getElementById("length").value;
+      var charset = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#$%^&*()_-+=?";
+      var password = "";
+      
+      for (var i = 0; i < length; i++) {
+        var randomIndex = Math.floor(Math.random() * charset.length);
+        password += charset[randomIndex];
+      }
+
+      document.getElementById("password").innerText = password;
+      document.getElementById("validation-message").innerText = validatePasswordStrength(password);
+      document.getElementById("copy-button").disabled = false;
+    }
+
+    function validatePasswordStrength(password) {
+      // Perform your password strength validation logic here
+      // This is just a simple example
+      if (password.length < 8) {
+        return "Weak";
+      } else if (password.length < 12) {
+        return "Moderate";
+      } else {
+        return "Strong";
+      }
+    }
+
+    function copyPassword() {
+      var passwordElement = document.getElementById("password");
+      var password = passwordElement.innerText;
+      
+      var tempElement = document.createElement("textarea");
+      tempElement.value = password;
+      document.body.appendChild(tempElement);
+      tempElement.select();
+      document.execCommand("copy");
+      document.body.removeChild(tempElement);
+
+      alert("Password copied to clipboard: " + password);
+    }
+  </script>
+</body>
+</html>
